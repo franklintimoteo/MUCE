@@ -9,6 +9,7 @@ class Spam(db.Model):
     fail = db.Column(db.Integer, nullable=True)
     template = db.Column(db.String, nullable=False)
     captures = db.relationship('LinkCaptured', backref='spam')
+    emails = db.relationship('Email', backref='spam')
 
 
 class LinkCaptured(db.Model):
@@ -19,7 +20,6 @@ class LinkCaptured(db.Model):
     os = db.Column(db.String(15), nullable=True)
     more_info = db.Column(db.String, nullable=True)
     spam_id = db.Column(db.Integer, db.ForeignKey('spams.id'))
-    emails = db.relationship('Email', backref='linkcaptured')
 
 
 class Email(db.Model):
@@ -27,5 +27,5 @@ class Email(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), nullable=False)
     hash = db.Column(db.String, nullable=True)
-    linkcaptured_id = db.Column(db.Integer, db.ForeignKey('linkscaptured.id'))
+    spam_id = db.Column(db.Integer, db.ForeignKey('spams.id'))
 
