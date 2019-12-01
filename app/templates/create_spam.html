@@ -2,51 +2,31 @@
 
 {% block content %}
 <form method="post">
-
-    <label for="subject">Subject</label>
     <div class="input-group">
-        <input id="subject" type="text" class="form-control" name="subject" placeholder="Subject" aria-label="Subject">
+        <div class="input-group-prepend">
+            <label for="subject" class="input-group-text">Subject</label>
+        </div>
+        <input id="subject" type="text" class="form-control" name="subject" placeholder="Subject" aria-label="Subject" required>
     </div>
 
-    <label>Select a type template</label>
     <div class="input-group">
-        <input id="checktempath" type="radio" name="template" value="path" aria-label="Toggle template path or template text" onclick="toggleTemplate()" checked>Template path
-        <input id="checktemtext" type="radio" name="template" value="text" aria-label="Toggle template path or template text" onclick="toggleTemplate()">Template text
-    </div>
-
-    <div class="input-group" id="templatepath">
-        <input type="text" class="form-control" name="templatepath" placeholder="/example/directory/template.html">
-    </div>
-
-    <div class="input-group d-none" id="templatetext">
-        <textarea class="form-control" rows="15" name="templatetext" aria-label="Template text area"></textarea>
+        <div class="input-group-prepend">
+            <label for="templatepath" class="input-group-text">Template</label>
+        </div>
+        <select class="custom-select" id="templatepath">
+            {% for template in templates %}
+                <option value="{{ template }}">{{ template }}</option>
+            {% endfor %}
+        </select>
     </div>
 
     <label>Emails</label>
     <div class="input-group">
-        <textarea class="form-control" rows="5" placeholder="email01@domain.com;email02@domain.net;email03@domain.com.br" name="emails"></textarea>
+        <textarea class="form-control" rows="5" placeholder="email01@domain.com;email02@domain.net;email03@domain.com.br" name="emails" required></textarea>
     </div>
 
 
     <button class="btn btn-outline-primary" type="submit">Create Spam</button>
 </form>
-
-
-<script>
-    function toggleTemplate(){
-        let typeTemplate = document.getElementById('checktemtext');
-
-        let templatePath = document.getElementById('templatepath');
-        let templateText = document.getElementById('templatetext');
-
-        if (typeTemplate.checked == true ){
-            templatePath.className = "d-none";
-            templateText.className = "d-block";
-        }else{
-            templateText.className = "d-none";
-            templatePath.className = "d-block";
-        }
-    }
-</script>
 {% endblock %}
 
