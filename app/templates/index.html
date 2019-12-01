@@ -1,5 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-<a href="{{ url_for('.create_spam') }}">New Spam</a>
+<div class="text-center mt-4 mb-4">
+    <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+    <p style="font-size:12px;">Modern Unsolicited Commercial Email</p>
+</div>
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend>Dashboard</legend>
+</fieldset>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend>Menu</legend>
+    <a class='btn btn-outline-primary' href="{{ url_for('.create_spam') }}">New Spam</a>
+</fieldset>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend>Spams Created</legend>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Success</th>
+                <th scope="col">Fail</th>
+                <th scope="col">Captured</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for spam in spams %}
+            <tr>
+                <th class="row">{{ spam.id }}</th>
+                <td>{{ spam.title }}</td>
+                <td>{{ spam.success }}</td>
+                <td>{{ spam.fail }}</td>
+                <td>{{ spam.captures|length }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</fieldset>
 {% endblock %}

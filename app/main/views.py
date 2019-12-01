@@ -2,12 +2,13 @@ import os
 import glob
 from flask import render_template, request, current_app, redirect, url_for
 from . import main
-from ..models import create_spam_db
+from ..models import create_spam_db, get_all_spams
 
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    spams = get_all_spams()
+    return render_template('index.html', spams=spams)
 
 
 @main.route('/create_spam', methods=['GET', 'POST'])
@@ -23,3 +24,4 @@ def create_spam():
     template_glob = os.path.join(template_folder, "spam_*.html")
     templates = glob.glob(template_glob)
     return render_template('create_spam.html', templates=templates)
+

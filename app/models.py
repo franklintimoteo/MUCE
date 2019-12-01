@@ -12,6 +12,9 @@ class Spam(db.Model):
     captures = db.relationship('LinkCaptured', backref='spam')
     emails = db.relationship('Email', backref='spam')
 
+    def __repr__(self):
+        return "<Spam %r>" %self.title
+
 
 class LinkCaptured(db.Model):
     __tablename__ = 'linkscaptured'
@@ -57,4 +60,9 @@ def create_spam_db(title, template, emails):
     db.session.commit()
 
 
+def get_all_spams():
+    """
+    :return: list items spam [<Spam 'self.name'>]
+    """
+    return Spam.query.all()
 
