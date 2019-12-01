@@ -6,8 +6,8 @@ class Spam(db.Model):
     __tablename__  = 'spams'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
-    success = db.Column(db.Integer, nullable=True)
-    fail = db.Column(db.Integer, nullable=True)
+    success = db.Column(db.Integer, nullable=True, default=0)
+    fail = db.Column(db.Integer, nullable=True, default=0)
     template = db.Column(db.String, nullable=False)
     captures = db.relationship('LinkCaptured', backref='spam')
     emails = db.relationship('Email', backref='spam')
