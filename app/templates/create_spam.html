@@ -2,14 +2,14 @@
 
 {% block content %}
 <form method="post">
-    <div class="input-group">
+    <div class="input-group mb-3">
         <div class="input-group-prepend">
             <label for="subject" class="input-group-text">Subject</label>
         </div>
         <input id="subject" type="text" class="form-control" name="subject" placeholder="Subject" aria-label="Subject" required>
     </div>
 
-    <div class="input-group">
+    <div class="input-group mb-3">
         <div class="input-group-prepend">
             <label for="templatepath" class="input-group-text">Template</label>
         </div>
@@ -21,7 +21,7 @@
     </div>
 
     <label>Emails</label>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <textarea class="form-control" rows="5" placeholder="email01@domain.com;email02@domain.net;email03@domain.com.br" name="emails" required></textarea>
     </div>
 
