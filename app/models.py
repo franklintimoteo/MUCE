@@ -1,5 +1,6 @@
 from . import db
-
+from .util import filter_emails
+from collections.abc import MutableSequence
 
 class Spam(db.Model):
     __tablename__  = 'spams'
@@ -28,4 +29,32 @@ class Email(db.Model):
     email = db.Column(db.String(255), nullable=False)
     hash = db.Column(db.String, nullable=True)
     spam_id = db.Column(db.Integer, db.ForeignKey('spams.id'))
+
+def _create_emails(emails):
+    """
+    :param emails: list emails string
+    :return: Email instance db.Model
+    """
+    if not isinstance(emails, MutableSequence):
+        raise TypeError("can only create emails with list emails")
+    emails_list = []
+    for email in emails:
+        m = Email(email=email)
+        emails_list.append(m)
+    return emails_list
+
+def create_spam_db(title, template, emails):
+    """
+    :param title: title spam
+    :param template: template full path
+    :param emails: list emails
+    """
+    emails = filter_emails(emails)
+    mls = _create_emails(emails)
+    spam = Spam(title=title, template=template, emails=mls)
+    db.session.add_all(mls)
+    db.session.add(spam)
+    db.session.commit()
+
+
 

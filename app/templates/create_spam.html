@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% block title %}Create Spam{% endblock %}
+
 {% block content %}
+<div class="text-center mt-4 mb-4">
+    <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+</div>
+
 <form method="post">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -13,7 +19,7 @@
         <div class="input-group-prepend">
             <label for="templatepath" class="input-group-text">Template</label>
         </div>
-        <select class="custom-select" id="templatepath">
+        <select class="custom-select" name="template" id="templatepath">
             {% for template in templates %}
                 <option value="{{ template }}">{{ template }}</option>
             {% endfor %}

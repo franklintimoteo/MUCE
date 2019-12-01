@@ -1,8 +1,8 @@
 
 def filter_emails(emails):
     """
-    :param emails: string with emails separated commas or semicolon
+    :param emails: string with emails separated semicolon
     :return: list emails
     """
-    emails = emails.split(';').split(',')
+    emails = emails.split(';')
     return emails
