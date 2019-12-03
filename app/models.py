@@ -33,6 +33,7 @@ class Email(db.Model):
     hash = db.Column(db.String, nullable=True)
     spam_id = db.Column(db.Integer, db.ForeignKey('spams.id'))
 
+
 def _create_emails(emails):
     """
     :param emails: list emails string
@@ -45,6 +46,7 @@ def _create_emails(emails):
         m = Email(email=email)
         emails_list.append(m)
     return emails_list
+
 
 def create_spam_db(title, template, emails):
     """
@@ -65,4 +67,11 @@ def get_all_spams():
     :return: list items spam [<Spam 'self.name'>]
     """
     return Spam.query.all()
+
+def get_spam(idspam):
+    """
+    :param idspam: id spam
+    :return: <Spam 'self'>
+    """
+    return Spam.query.get(idspam)
 

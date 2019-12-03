@@ -5,6 +5,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 {% endblock %}
 
+{% block title %}Info{% endblock %}
+
 {% block content %}
 <div class="text-center mt-4 mb-4">
     <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
@@ -12,9 +14,10 @@
 </div>
 
 <fieldset class="mb-3 p-3 border border-secondary">
-    <legend><span class="badge badge-dark">Dashboard</span></legend>
-
+    <legend><span class="badge badge-dark">Info Spam Dashboard</span></legend>
+    <legend class="h6"><strong>Title:</strong> {{ spam.title }}</legend>
     <canvas id="dashChart" height="50"></canvas>
+
     <script>
         var ctx = document.getElementById('dashChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -23,7 +26,7 @@
         labels: ['Success', 'Failed', 'Captured'],
         datasets: [{
             label: '# Total',
-            data: [{{ total_success }}, {{ total_failed }}, {{ total_captured }}],
+            data: [{{ spam.success }}, {{ spam.fail }}, {{ spam.captured|count }}],
             backgroundColor: [
                 'rgb(73, 191, 158)',
                 'rgb(166, 3, 3)',
@@ -51,31 +54,41 @@
 </fieldset>
 
 <fieldset class="mb-3 p-3 border border-secondary">
-    <legend><span class="badge badge-dark">Menu</span></legend>
-    <a class='btn btn-outline-primary' href="{{ url_for('.create_spam') }}">New Spam</a>
+    <legend><span class="badge badge-dark">Setup</span></legend>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label for="templatepath" class="input-group-text">Template</label>
+        </div>
+        <input class="form-control" type="text" value="{{ spam.template }}" disabled>
+    </div>
+
+    <label>Emails</label>
+    <div class="input-group mb-3">
+        <textarea class="form-control" rows="3" disabled>
+            {% for email in spam.emails %}{{ email.email }}
+            {% endfor %}
+        </textarea>
+    </div>
 </fieldset>
 
 <fieldset class="mb-3 p-3 border border-secondary">
-    <legend><span class="badge badge-dark">Spams Created</span></legend>
+    <legend><span class="badge badge-dark">Captured</span></legend>
     <table class="table">
         <thead>
-            <tr>
-                <th scope="col">#ID</th>
-                <th scope="col">Title</th>
-                <th scope="col">Success</th>
-                <th scope="col">Fail</th>
-                <th scope="col">Captured</th>
-            </tr>
+        <tr>
+            <th scope="col">IP</th>
+            <th scope="col">U-Agent</th>
+            <th scope="col">OS</th>
+            <th scope="col">Details</th>
+        </tr>
         </thead>
-
         <tbody>
-            {% for spam in spams %}
+            {% for capture in spam.captures %}
             <tr>
-                <th class="row">{{ spam.id }}</th>
-                <td><a href="{{ url_for('.info_spam', idspam=spam.id) }}">{{ spam.title }}</a></td>
-                <td>{{ spam.success }}</td>
-                <td>{{ spam.fail }}</td>
-                <td>{{ spam.captures|length }}</td>
+                <th class="row">{{ capture.ip }}</th>
+                <th>{{ capture.user_agent }}</th>
+                <th>{{ capture.os }}</th>
+                <th>{{ capture.more_info }}</th>
             </tr>
             {% endfor %}
         </tbody>

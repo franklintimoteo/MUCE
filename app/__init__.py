@@ -19,6 +19,8 @@ def create_app():
     boostrap.init_app(app)
 
     from .main import main as main_blueprint
+    from .main import error_bp
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(error_bp)
 
     return app
