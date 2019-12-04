@@ -20,6 +20,19 @@ Example: spam_smartphone5g.html
 Put templates on app/templates/ directory.
 ```
 
+#### Configure Template
+Add `{{ url_coupon }}` on html template
+```html
+Example:
+<html>
+<head><title>Coupon Paypal</title></head>
+<body>
+    <a href="{{ url_coupon }}">Redeem coupon</a>
+</body>
+</html>
+
+```
+
 #### Configure your mail
 ```shell script
 app.__init__.py - update with your mail "SERVER", "PORT", "SENDER", "DDNS"
@@ -38,16 +51,3 @@ set MAIL_USERNAME=username
 set MAIL_PASSWORD=p@sSWorD
 ```
 
-
-#### Configure Template
-Add `{{ url_coupon }}` on html template
-```html
-Example:
-<html>
-<head><title>Coupon Paypal</title></head>
-<body>
-    <a href="{{ url_coupon }}">Redeem coupon</a>
-</body>
-</html>
-
-```
