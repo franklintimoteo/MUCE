@@ -3,6 +3,10 @@
 </a></p>
 <h5 align="center">Modern Unsolicited Commercial Email</h5>
 
+<p align="center">
+  <img src="app/static/images/screenshot-1.png" >
+</a></p>
+
 #### Initialize the database
 ```shell script
 flask init-db
