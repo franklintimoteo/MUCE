@@ -1,0 +1,28 @@
+{% extends "base.html"%}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col text-center">
+        <h1>Login</h1>
+    </div>
+</div>
+
+<form method="post">
+<div class="row justify-content-center">
+    <div class="col-auto">
+        {{ form.csrf_token }}
+        {{ form.username.label }}{{ form.username() }}
+    </div>
+
+    <div class="col-auto">
+        {{ form.password.label }}{{ form.password() }}
+         <input type="submit" value="Login">
+    </div>
+</div>
+
+</form>
+
+{% endblock %}

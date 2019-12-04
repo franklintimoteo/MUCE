@@ -1,12 +1,14 @@
 import os
 import glob
 from flask import render_template, request, current_app, redirect, url_for, abort
+from flask_login import login_required
 from . import main
 from ..models import create_spam_db, get_all_spams, get_spam, get_email, create_captured
 from ..mail import send_all_emails_spam
 
 
 @main.route('/')
+@login_required
 def index():
     spams = get_all_spams()
     t_success = sum(n.success for n in spams)
@@ -16,6 +18,7 @@ def index():
 
 
 @main.route('/create_spam', methods=['GET', 'POST'])
+@login_required
 def create_spam():
     if request.method in "POST":
         subject = request.values['subject']
@@ -33,6 +36,7 @@ def create_spam():
 
 
 @main.route('/info_spam/<idspam>')
+@login_required
 def info_spam(idspam):
     spam = get_spam(idspam)
     if not spam:
