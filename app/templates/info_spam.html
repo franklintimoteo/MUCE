@@ -9,8 +9,10 @@
 
 {% block content %}
 <div class="text-center mt-4 mb-4">
-    <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
-    <p style="font-size:12px;">Modern Unsolicited Commercial Email</p>
+    <a href="{{ url_for('.index') }}">
+        <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+        <p style="font-size:12px;">Modern Unsolicited Commercial Email</p>
+    </a>
 </div>
 
 <fieldset class="mb-3 p-3 border border-secondary">
@@ -26,7 +28,7 @@
         labels: ['Success', 'Failed', 'Captured'],
         datasets: [{
             label: '# Total',
-            data: [{{ spam.success }}, {{ spam.fail }}, {{ spam.captured|count }}],
+            data: [{{ spam.success }}, {{ spam.fail }}, {{ spam.captures|count }}],
             backgroundColor: [
                 'rgb(73, 191, 158)',
                 'rgb(166, 3, 3)',
@@ -62,6 +64,13 @@
         <input class="form-control" type="text" value="{{ spam.template }}" disabled>
     </div>
 
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label for="redirect_to" class="input-group-text">Redirect to</label>
+        </div>
+        <input class="form-control" type="text" value="{{ spam.redirect_to}}" disabled>
+    </div>
+
     <label>Emails</label>
     <div class="input-group mb-3">
         <textarea class="form-control" rows="3" disabled>
@@ -85,10 +94,17 @@
         <tbody>
             {% for capture in spam.captures %}
             <tr>
-                <th class="row">{{ capture.ip }}</th>
-                <th>{{ capture.user_agent }}</th>
-                <th>{{ capture.os }}</th>
-                <th>{{ capture.more_info }}</th>
+                <td class="row">{{ capture.ip }}</td>
+                <td>{{ capture.user_agent }}</td>
+                <td>{{ capture.os }}</td>
+                <td>
+                    <a class="btn-sm btn-dark" data-toggle="collapse" href="#collapseInfo{{ loop.index }}" role="button" aria-expanded="false" aria-controls="collapseInfo{{ loop.index }}">Details</a>
+                    <div class="collapse" id="collapseInfo{{ loop.index }}">
+                        <div class="card card-body">
+                            {{ capture.more_info }}
+                        </div>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

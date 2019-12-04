@@ -3,6 +3,11 @@
 </a></p>
 <h5 align="center">Modern Unsolicited Commercial Email</h5>
 
+#### Initialize the database
+```shell script
+flask init-db
+```
+
 #### Add new spam templates
 ```
 Create templates named with prefix spam_
@@ -16,10 +21,14 @@ app.__init__.py - update with your mail "SERVER", "PORT", "SENDER", "DDNS"
 
 - Define vars
 (Linux)
-export MAIL_USERNAME=username@gmail.com
+export MAIL_SENDER=youcompleteemail@domain.com
+export DDNS=muce.ddns.net
+export MAIL_USERNAME=usernameEmail
 export MAIL_PASSWORD=p@sSWorD
 
 (Windows) 
+set MAIL_SENDER=youcompleteemail@domain.com
+set DDNS=muce.ddns.net
 set MAIL_USERNAME=username
 set MAIL_PASSWORD=p@sSWorD
 ```

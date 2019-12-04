@@ -9,6 +9,7 @@ class Spam(db.Model):
     success = db.Column(db.Integer, nullable=True, default=0)
     fail = db.Column(db.Integer, nullable=True, default=0)
     template = db.Column(db.String, nullable=False)
+    redirect_to = db.Column(db.String, nullable=True)
     captures = db.relationship('LinkCaptured', backref='spam')
     emails = db.relationship('Email', backref='spam')
 
@@ -23,6 +24,7 @@ class LinkCaptured(db.Model):
     ip = db.Column(db.String, nullable=True)
     os = db.Column(db.String(15), nullable=True)
     more_info = db.Column(db.String, nullable=True)
+    email = db.Column(db.String, nullable=True)
     spam_id = db.Column(db.Integer, db.ForeignKey('spams.id'))
 
 
@@ -32,6 +34,12 @@ class Email(db.Model):
     email = db.Column(db.String(255), nullable=False)
     hash = db.Column(db.String, nullable=True)
     spam_id = db.Column(db.Integer, db.ForeignKey('spams.id'))
+
+
+def create_captured(usera, ip, os, more_info, email, idspam):
+    captured = LinkCaptured(user_agent=usera, ip=ip, os=os, more_info=more_info, email=email, spam_id=idspam)
+    db.session.add(captured)
+    db.session.commit()
 
 
 def _create_emails(emails):
@@ -48,18 +56,20 @@ def _create_emails(emails):
     return emails_list
 
 
-def create_spam_db(title, template, emails):
+def create_spam_db(title, template, emails, redirect_to):
     """
     :param title: title spam
     :param template: template full path
     :param emails: list emails
+    :return: id spam
     """
     emails = filter_emails(emails)
     mls = _create_emails(emails)
-    spam = Spam(title=title, template=template, emails=mls)
+    spam = Spam(title=title, template=template, emails=mls, redirect_to=redirect_to)
     db.session.add_all(mls)
     db.session.add(spam)
     db.session.commit()
+    return spam.id
 
 
 def get_all_spams():
@@ -68,6 +78,7 @@ def get_all_spams():
     """
     return Spam.query.all()
 
+
 def get_spam(idspam):
     """
     :param idspam: id spam
@@ -75,3 +86,10 @@ def get_spam(idspam):
     """
     return Spam.query.get(idspam)
 
+
+def get_email(idemail):
+    """
+    :param idemail: id email
+    :return: <Email 'self'>
+    """
+    return Email.query.get(idemail)

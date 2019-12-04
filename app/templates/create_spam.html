@@ -4,7 +4,10 @@
 
 {% block content %}
 <div class="text-center mt-4 mb-4">
-    <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+    <a href="{{ url_for('.index') }}">
+        <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+        <p style="font-size:12px;">Modern Unsolicited Commercial Email</p>
+    </a>
 </div>
 
 <form method="post">
@@ -13,6 +16,13 @@
             <label for="subject" class="input-group-text">Subject</label>
         </div>
         <input id="subject" type="text" class="form-control" name="subject" placeholder="Subject" aria-label="Subject" required>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-append">
+            <label for="redirect" class="input-group-text">Redirect to</label>
+        </div>
+        <input id="redirect" type="text" class="form-control" name="redirect" placeholder="www.example.com/login" aria-label="Redirect" required>
     </div>
 
     <div class="input-group mb-3">
