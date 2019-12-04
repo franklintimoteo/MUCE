@@ -16,7 +16,7 @@ Put templates on app/templates/ directory.
 ```
 
 #### Configure your mail
-```
+```shell script
 app.__init__.py - update with your mail "SERVER", "PORT", "SENDER", "DDNS"
 
 - Define vars
