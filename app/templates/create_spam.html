@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Create Spam{% endblock %}
+
+{% block content %}
+<div class="text-center mt-4 mb-4">
+    <a href="{{ url_for('.index') }}">
+        <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+        <p style="font-size:12px;">Modern Unsolicited Commercial Email</p>
+    </a>
+</div>
+
+<form method="post">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label for="subject" class="input-group-text">Subject</label>
+        </div>
+        <input id="subject" type="text" class="form-control" name="subject" placeholder="Subject" aria-label="Subject" required>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-append">
+            <label for="redirect" class="input-group-text">Redirect to</label>
+        </div>
+        <input id="redirect" type="text" class="form-control" name="redirect" placeholder="www.example.com/login" aria-label="Redirect" required>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label for="templatepath" class="input-group-text">Template</label>
+        </div>
+        <select class="custom-select" name="template" id="templatepath">
+            {% for template in templates %}
+                <option value="{{ template }}">{{ template }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <label>Emails</label>
+    <div class="input-group mb-3">
+        <textarea class="form-control" rows="5" placeholder="email01@domain.com;email02@domain.net;email03@domain.com.br" name="emails" required></textarea>
+    </div>
+
+
+    <button class="btn btn-outline-primary" type="submit">Create Spam</button>
+</form>
+{% endblock %}
+

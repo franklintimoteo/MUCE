@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="text-center mt-4 mb-4">
+    <a href="{{ url_for('.index') }}">
+        <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+        <p style="font-size:12px;">Modern Unsolicited Commercial Email</p>
+    </a>
+</div>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend><span class="badge badge-dark">Dashboard</span></legend>
+
+    <canvas id="dashChart" height="50"></canvas>
+    <script>
+        var ctx = document.getElementById('dashChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Success', 'Failed', 'Captured'],
+        datasets: [{
+            label: '# Total',
+            data: [{{ total_success }}, {{ total_failed }}, {{ total_captured }}],
+            backgroundColor: [
+                'rgb(73, 191, 158)',
+                'rgb(166, 3, 3)',
+                'rgb(1, 11, 64)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+    </script>
+</fieldset>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend><span class="badge badge-dark">Menu</span></legend>
+    <a class='btn btn-outline-primary' href="{{ url_for('.create_spam') }}">New Spam</a>
+</fieldset>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend><span class="badge badge-dark">Spams Created</span></legend>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Success</th>
+                <th scope="col">Fail</th>
+                <th scope="col">Captured</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for spam in spams %}
+            <tr>
+                <th class="row">{{ spam.id }}</th>
+                <td><a href="{{ url_for('.info_spam', idspam=spam.id) }}">{{ spam.title }}</a></td>
+                <td>{{ spam.success }}</td>
+                <td>{{ spam.fail }}</td>
+                <td>{{ spam.captures|length }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</fieldset>
+{% endblock %}

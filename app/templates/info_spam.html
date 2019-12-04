@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+{% endblock %}
+
+{% block title %}Info{% endblock %}
+
+{% block content %}
+<div class="text-center mt-4 mb-4">
+    <a href="{{ url_for('.index') }}">
+        <img src="{{ url_for('static', filename='images/muce-banner.gif') }}">
+        <p style="font-size:12px;">Modern Unsolicited Commercial Email</p>
+    </a>
+</div>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend><span class="badge badge-dark">Info Spam Dashboard</span></legend>
+    <legend class="h6"><strong>Title:</strong> {{ spam.title }}</legend>
+    <canvas id="dashChart" height="50"></canvas>
+
+    <script>
+        var ctx = document.getElementById('dashChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Success', 'Failed', 'Captured'],
+        datasets: [{
+            label: '# Total',
+            data: [{{ spam.success }}, {{ spam.fail }}, {{ spam.captures|count }}],
+            backgroundColor: [
+                'rgb(73, 191, 158)',
+                'rgb(166, 3, 3)',
+                'rgb(1, 11, 64)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+    </script>
+</fieldset>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend><span class="badge badge-dark">Setup</span></legend>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label for="templatepath" class="input-group-text">Template</label>
+        </div>
+        <input class="form-control" type="text" value="{{ spam.template }}" disabled>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label for="redirect_to" class="input-group-text">Redirect to</label>
+        </div>
+        <input class="form-control" type="text" value="{{ spam.redirect_to}}" disabled>
+    </div>
+
+    <label>Emails</label>
+    <div class="input-group mb-3">
+        <textarea class="form-control" rows="3" disabled>
+            {% for email in spam.emails %}{{ email.email }}
+            {% endfor %}
+        </textarea>
+    </div>
+</fieldset>
+
+<fieldset class="mb-3 p-3 border border-secondary">
+    <legend><span class="badge badge-dark">Captured</span></legend>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">IP</th>
+            <th scope="col">U-Agent</th>
+            <th scope="col">OS</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for capture in spam.captures %}
+            <tr>
+                <td class="row">{{ capture.ip }}</td>
+                <td>{{ capture.user_agent }}</td>
+                <td>{{ capture.os }}</td>
+                <td>
+                    <a class="btn-sm btn-dark" data-toggle="collapse" href="#collapseInfo{{ loop.index }}" role="button" aria-expanded="false" aria-controls="collapseInfo{{ loop.index }}">Details</a>
+                    <div class="collapse" id="collapseInfo{{ loop.index }}">
+                        <div class="card card-body">
+                            {{ capture.more_info }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</fieldset>
+{% endblock %}
