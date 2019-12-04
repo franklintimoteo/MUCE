@@ -40,7 +40,7 @@ app.__init__.py - update with your mail "SERVER", "PORT", "SENDER", "DDNS"
 - Define vars
 (Linux)
 export MAIL_SENDER=youcompleteemail@domain.com
-export DDNS=muce.ddns.net
+export DDNS=muce.ddns.net:587
 export MAIL_USERNAME=usernameEmail
 export MAIL_PASSWORD=p@sSWorD
 
