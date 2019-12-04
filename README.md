@@ -8,6 +8,11 @@
 flask init-db
 ```
 
+#### Create admin login
+```shell script
+flask init-admin -u username -p password
+```
+
 #### Add new spam templates
 ```
 Create templates named with prefix spam_
